@@ -43,7 +43,7 @@ public class MotorsPageTest {
     }
 
     @Test(dataProvider = "carMakes", testName = "Select: {0} displays correctly")
-    public void Expect_Selected_Car_Make_To_Be_Seleted(Car carMake){
+    public void Expect_Selected_Car_Make_To_Be_Seleted_And_Search_Results_Displayed(Car carMake){
         motorsPage.clickCarMake(carMake.name);
         motorsPage.clickSearchButton();
         Integer carNumberResults = motorsPage.numberOfSearchedCarResults();
