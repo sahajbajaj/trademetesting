@@ -16,4 +16,4 @@ To better understand automation testing
 ### Run Project
 Click tests and select run
 
-![Alt text](image-1.png)
+![Alt text](image-2.png)

@@ -20,13 +20,14 @@ public class Helpers {
     
     public static WebElement findElementAwait(WebDriver driver, By elementselector){
         WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(10));
-        WebElement webElement = waitDriver.until(ExpectedConditions.visibilityOfElementLocated(elementselector));
-        return webElement;        
+        waitDriver.until(ExpectedConditions.presenceOfElementLocated(elementselector));
+        return driver.findElement(elementselector);        
     }
 
     public static List<WebElement> findElementsAwait(WebDriver driver, By elementselector){
         WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(10));
-        List<WebElement> webElements = waitDriver.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(elementselector));
-        return webElements;        
+        
+        waitDriver.until(ExpectedConditions.presenceOfAllElementsLocatedBy(elementselector));
+        return driver.findElements(elementselector);       
     }
 }

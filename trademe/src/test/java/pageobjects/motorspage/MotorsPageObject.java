@@ -45,11 +45,20 @@ public class MotorsPageObject extends BasePageObject {
     public Integer numberOfSearchedCarResults(){
         String regexPattern = "Showing (?:\\d{1,3},)?\\d+ results";
 
-        for (WebElement h3Element : Helpers.findElementsAwait(driver, By.tagName("h3"))) {
-            if (Pattern.matches(regexPattern, h3Element.getText())) {
-                return Integer.parseInt(h3Element.getText().replaceAll("[^0-9]", ""));
+        Boolean noElementFound = true;
+        while(noElementFound)
+        {
+            for (WebElement h3Element : Helpers.findElementsAwait(driver, By.tagName("h3"))) {
+                try {
+                    if (Pattern.matches(regexPattern, h3Element.getText())) {
+                        noElementFound = false;
+                        return Integer.parseInt(h3Element.getText().replaceAll("[^0-9]", ""));
+                    }
+                } catch (Exception ex){
+                    //log error - don't throw exceptionS
+                }
             }
-        }
+        }        
         return 0;
     }
 }
