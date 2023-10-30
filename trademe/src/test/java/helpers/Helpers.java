@@ -14,8 +14,7 @@ public class Helpers {
     public static WebElement getDropdownItems(WebDriver driver, Dropdown dropdownSelction){
         WebDriverWait waitDriver = new WebDriverWait(driver, Duration.ofSeconds(10));
         String allMakeSelectId = waitDriver.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(@class, 'o-select__label') and text()='%s']".formatted(dropdownSelction.getId())))).getAttribute("for");
-        WebElement allMakeOptionsElement = driver.findElement(By.id(allMakeSelectId));
-        return allMakeOptionsElement;
+        return driver.findElement(By.id(allMakeSelectId));
     }
     
     public static WebElement findElementAwait(WebDriver driver, By elementselector){

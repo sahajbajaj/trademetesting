@@ -12,7 +12,7 @@ import helpers.Dropdown;
 import helpers.Helpers;
 import pageobjects.shared.BasePageObject;
 
-public class MotorsPageObject extends BasePageObject {   
+public class MotorsPageObject extends BasePageObject {
     public MotorsPageObject(WebDriver driver) {
         super(driver);
     }
@@ -32,13 +32,13 @@ public class MotorsPageObject extends BasePageObject {
     public String clickCarMake(String carMake){
         WebElement carMakeDropdown = Helpers.getDropdownItems(driver, Dropdown.MAKE);
         carMakeDropdown.sendKeys(carMake);
-        WebElement selectedOption = carMakeDropdown.findElement(By.cssSelector("option:checked"));
+        WebElement selectedOption = Helpers.findElementAwait(driver, By.cssSelector("option:checked"));
         return selectedOption.getText();        
     }
 
     public void clickSearchButton(){
-        WebElement searchButton = driver.findElement(By.xpath("//button[text()=' View 32,000+ listings ']"));
-
+        WebElement searchButton = Helpers.findElementAwait(driver, By.xpath("//button[text()=' View 32,000+ listings ']"));
+        
         searchButton.click();
     }
     

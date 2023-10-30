@@ -1,10 +1,13 @@
 package automationtests;
 import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import static io.restassured.RestAssured.given;
 
+import io.restassured.response.Response;
 import pageobjects.homepage.HomePageObject;
 import pageobjects.homepage.enums.HomePageLinks;
 import pageobjects.motorspage.MotorsPageObject;
@@ -12,12 +15,19 @@ import pageobjects.motorspage.models.Car;
 
 public class MotorsPageTest {
     MotorsPageObject motorsPage;
+    Integer numberOfCarMakesApi;
 
     @BeforeMethod
-    public void openBrowser(){
+    public void openBrowser(ITestResult result){
         HomePageObject homepage = new HomePageObject();
         homepage.clickPageOptionLink(HomePageLinks.MOTORS);
         motorsPage = new MotorsPageObject(homepage.driver);
+
+        String testName = result.getMethod().getMethodName();
+        if (testName.equals("Expect_Ui_Number_Of_Cars_To_Match_Api")) {
+            Response response = given().when().get("https://api.trademe.co.nz/v1/Categories/UsedCars.json");
+            numberOfCarMakesApi = response.jsonPath().getList("Subcategories.Name").size();       
+        }
     }
 
     @AfterMethod
@@ -36,10 +46,9 @@ public class MotorsPageTest {
     }
 
     @Test
-    public void Expect_Number_Of_Cars_To_Be_Eighty_One(){
-        int expectedCountOfCars = 81;
-        int actualCountOfCars = motorsPage.calculateNumberofOptions();
-        Assert.assertEquals(actualCountOfCars, expectedCountOfCars);
+    public void Expect_Ui_Number_Of_Cars_To_Match_Api(){    
+        Integer actualUiCountOfCars = motorsPage.calculateNumberofOptions();
+        Assert.assertEquals(actualUiCountOfCars, numberOfCarMakesApi);
     }
 
     @Test(dataProvider = "carMakes", testName = "Select: {0} displays correctly")
